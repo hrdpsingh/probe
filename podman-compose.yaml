@@ -1,0 +1,11 @@
+services:
+  bytescope:
+    build:
+      context: .
+      dockerfile: Containerfile
+    container_name: bytescope
+    volumes:
+      - .:/app
+    command: sleep infinity
+    init: true
+    image: bytescope
