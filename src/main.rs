@@ -1,5 +1,8 @@
-use iced::widget::{row, text};
-use iced::{Alignment, Application, Command, Element, Settings, Theme, executor};
+use iced::{
+    Application, Command, Element, Settings, Theme, executor,
+    widget::{column, text},
+};
+use nix::sys::utsname::uname;
 
 fn main() -> iced::Result {
     ByteScope::run(Settings::default())
@@ -7,6 +10,7 @@ fn main() -> iced::Result {
 
 struct ByteScope {
     hostname: String,
+    kernel: String,
 }
 
 #[derive(Debug, Clone)]
@@ -24,7 +28,12 @@ impl Application for ByteScope {
             Err(_) => "Unavailable".to_string(),
         };
 
-        (Self { hostname }, Command::none())
+        let kernel = match uname() {
+            Ok(info) => info.release().to_string_lossy().to_string(),
+            Err(_) => "Unavailable".to_string(),
+        };
+
+        (Self { hostname, kernel }, Command::none())
     }
 
     fn title(&self) -> String {
@@ -36,9 +45,12 @@ impl Application for ByteScope {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        row![text("Hostname: "), text(&self.hostname)]
-            .padding(20)
-            .align_items(Alignment::Center)
-            .into()
+        column![
+            text(format!("Hostname: {}", self.hostname)),
+            text(format!("Kernel: {}", self.kernel)),
+        ]
+        .padding(20)
+        .spacing(10)
+        .into()
     }
 }
