@@ -7,3 +7,5 @@ edition = "2024"
 hostname = "0.4.2"
 iced = "0.12"
 nix = { version = "0.28", features = ["feature"] }
+os_info = "3"
+sysinfo = "0.30"
