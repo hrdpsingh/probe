@@ -1,7 +1,8 @@
 use iced::{
-    Application, Command, Element, Font, Settings, Theme, executor,
+    Application, Background, Color, Command, Element, Font, Length, Settings, Theme,
+    border, executor,
     font::Weight,
-    widget::{column, row, text},
+    widget::{column, container, row, text},
 };
 use nix::sys::utsname::uname;
 use std::{env, fs, path::Path};
@@ -9,6 +10,19 @@ use sysinfo::{Disks, System};
 
 fn main() -> iced::Result {
     ByteScope::run(Settings::default())
+}
+
+fn card(_theme: &iced::Theme) -> container::Appearance {
+    container::Appearance {
+        background: Some(Background::Color(Color::from_rgb8(240, 245, 250))),
+        border: border::Border {
+            radius: 12.0.into(),
+            width: 0.0,
+            color: Color::TRANSPARENT,
+        },
+        text_color: None,
+        ..Default::default()
+    }
 }
 
 struct ByteScope {
@@ -97,38 +111,55 @@ impl Application for ByteScope {
     }
 
     fn view(&self) -> Element<'_, Message> {
-        let software = column![
-            text("Software").font(Font {
-                weight: Weight::Bold,
-                ..Font::default()
-            }),
-            text(format!("Hostname: {}", self.hostname)),
-            text(format!("Kernel: {}", self.kernel)),
-            text(format!("OS: {}", self.os)),
-            text(format!("Display Server: {}", self.display_server)),
-        ]
-        .padding(20)
-        .spacing(10);
+        let software = container(
+            column![
+                text("Software")
+                    .font(Font {
+                        weight: Weight::Bold,
+                        ..Font::default()
+                    }),
+                text(format!("Hostname: {}", self.hostname)),
+                text(format!("Kernel: {}", self.kernel)),
+                text(format!("OS: {}", self.os)),
+                text(format!("Display Server: {}", self.display_server)),
+            ]
+            .padding(20)
+            .spacing(10),
+        )
+        .style(card);
 
-        let hardware = column![
-            text("Hardware").font(Font {
-                weight: Weight::Bold,
-                ..Font::default()
-            }),
-            text(format!(
-                "Memory: {:.2} GB",
-                self.ram as f64 / (1024.0 * 1024.0 * 1024.0)
-            )),
-            text(format!(
-                "Storage: {:.2} GB",
-                self.storage as f64 / (1024.0 * 1024.0 * 1024.0)
-            )),
-            text(format!("CPU: {}", self.cpu)),
-            text(format!("Product Name: {}", self.product_name)),
-        ]
-        .padding(20)
-        .spacing(10);
+        let hardware = container(
+            column![
+                text("Hardware")
+                    .font(Font {
+                        weight: Weight::Bold,
+                        ..Font::default()
+                    }),
+                text(format!(
+                    "Memory: {:.2} GB",
+                    self.ram as f64 / (1024.0 * 1024.0 * 1024.0)
+                )),
+                text(format!(
+                    "Storage: {:.2} GB",
+                    self.storage as f64 / (1024.0 * 1024.0 * 1024.0)
+                )),
+                text(format!("CPU: {}", self.cpu)),
+                text(format!("Product Name: {}", self.product_name)),
+            ]
+            .padding(20)
+            .spacing(10),
+        )
+        .style(card);
 
-        row![software, hardware,].spacing(20).padding(20).into()
+        container(row![software, hardware,].spacing(20).padding(20))
+            .width(Length::Fill)
+            .height(Length::Fill)
+            .style(|_theme: &Theme| container::Appearance {
+                background: Some(Color::from_rgb(0.902, 0.941, 0.980).into()),
+                ..Default::default()
+            })
+            .center_x()
+            .center_y()
+            .into()
     }
 }
