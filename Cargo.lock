@@ -236,17 +236,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e748733b7cbc798e1434b6ac524f0c1ff2ab456fe201501e6497c8417a4fc33"
 
 [[package]]
-name = "bytescope"
-version = "0.1.0"
-dependencies = [
- "hostname",
- "iced",
- "nix 0.28.0",
- "os_info",
- "sysinfo",
-]
-
-[[package]]
 name = "calloop"
 version = "0.12.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2158,6 +2147,17 @@ name = "presser"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e8cf8e6a8aa66ce33f63993ffc4ea4271eb5b0530a9002db8455ea6050c77bfa"
+
+[[package]]
+name = "probe"
+version = "0.1.0"
+dependencies = [
+ "hostname",
+ "iced",
+ "nix 0.28.0",
+ "os_info",
+ "sysinfo",
+]
 
 [[package]]
 name = "proc-macro-crate"

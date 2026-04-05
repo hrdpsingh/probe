@@ -1,5 +1,5 @@
 cargo *args:
-    podman exec bytescope cargo {{args}}
+    podman exec probe cargo {{args}}
     
 do *args:
-    podman exec bytescope {{args}}
+    podman exec probe {{args}}
