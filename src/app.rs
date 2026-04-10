@@ -1,7 +1,8 @@
 use crate::{
     components::sidebar,
-    pages::{memory, overview},
-    types::Page,
+    models::Page,
+    pages::{battery, cpu, memory, overview, storage},
+    styles,
 };
 
 use iced::{
@@ -32,17 +33,19 @@ impl Probe {
         let content = match self.page {
             Page::Overview => overview::view(),
             Page::Memory => memory::view(),
+            Page::Storage => storage::view(),
+            Page::Cpu => cpu::view(),
+            Page::Battery => battery::view(),
         };
 
         row![
-            sidebar::view(),
+            sidebar::view(self.page),
             container(content)
                 .width(Length::Fill)
                 .height(Length::Fill)
-                .style(|_theme: &Theme| {
-                    container::Style::default()
-                        .background(Color::from_rgb8(230, 240, 250))
-                })
+                .center_x(Length::Fill)
+                .center_y(Length::Fill)
+                .style(styles::content)
         ]
         .into()
     }

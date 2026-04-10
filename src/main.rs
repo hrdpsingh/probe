@@ -1,8 +1,8 @@
 mod app;
 mod components;
+mod models;
 mod pages;
 mod styles;
-mod types;
 
 use app::Probe;
 
