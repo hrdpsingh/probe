@@ -3,5 +3,5 @@ use iced::Element;
 use iced::widget::{column, text};
 
 pub fn view<'a>() -> Element<'a, Message> {
-    column![text("Overview Page"),].into()
+    column![text("Memory Page"),].into()
 }

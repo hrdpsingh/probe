@@ -1,10 +1,6 @@
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Clone, Default)]
 pub enum Page {
+    #[default]
     Overview,
-    Cpu,
-}
-
-#[derive(Debug, Clone)]
-pub enum Message {
-    Navigate(Page),
+    Memory,
 }
